@@ -22,11 +22,12 @@ class MovieDetailViewController: UIViewController, UICollectionViewDataSource, U
     @IBOutlet var voteStars: [UIImageView]!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var similarMovieTableView: UITableView!
     @IBOutlet weak var castCollectionView: UICollectionView!
     @IBOutlet weak var castLabel: UILabel!
     @IBOutlet weak var similarLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var showMore: UIButton!
     
     
     var listGenres = [Genres]()
@@ -97,7 +98,7 @@ class MovieDetailViewController: UIViewController, UICollectionViewDataSource, U
             durationLabel.text = "\(detailMovie?.releaseDate ?? "")  (\(countries[0].iso31661 ?? "US"))  \(detailMovie?.runtime ?? Int()) min"
             
         }
-        descriptionLabel.text = "\(detailMovie?.overview ?? "")"
+        descriptionTextView.text = "\(detailMovie?.overview ?? "")"
     }
     
     func setupUICollectionView(collecitonView: UICollectionView) {
@@ -147,7 +148,39 @@ class MovieDetailViewController: UIViewController, UICollectionViewDataSource, U
         cell.setupView(movie: movie, genres: listGenres)
         return cell
     }
+    
+    func getRowHeightFromText(strText : String!) -> CGFloat {
+        let textView : UITextView! = UITextView(frame: CGRect(x:      self.descriptionTextView.frame.origin.x,
+        y: 0,
+        width: self.descriptionTextView.frame.size.width,
+        height: 0))
+        textView.text = strText
+        textView.font = UIFont(name: "Fira Sans", size:  14.0)
+        textView.sizeToFit()
 
+        var txt_frame : CGRect! = CGRect()
+        txt_frame = textView.frame
+
+        var size : CGSize! = CGSize()
+        size = txt_frame.size
+
+        size.height = 50 + txt_frame.size.height
+        return size.height
+    }
+    
+    @IBAction func showMoreButtonClick(_ sender: UIButton) {
+        if sender.tag == 0 {
+            let height = self.getRowHeightFromText(strText: self.descriptionTextView.text)
+            self.descriptionTextView.frame = CGRect(x: self.descriptionTextView.frame.origin.x, y: self.descriptionTextView.frame.origin.y, width: self.descriptionTextView.frame.size.width, height: height)
+            
+            showMore.setTitle("Less", for: .normal)
+            sender.tag = 1
+        } else{
+            self.descriptionTextView.frame = CGRect(x: self.descriptionTextView.frame.origin.x, y: self.descriptionTextView.frame.origin.y, width: self.descriptionTextView.frame.size.width, height: 116)
+            showMore.setTitle("More", for: .normal)
+            sender.tag = 0
+        }
+    }
 }
 
 extension MovieDetailViewController {
@@ -197,49 +230,5 @@ extension MovieDetailViewController {
         }
         
     }
-    
-//    func requestAPIDetailMovie(movieId: Int) {
-//        APIManager.requestAPI(api: "http://api.themoviedb.org/3/movie/\(movieId)?api_key=d5b97a6fad46348136d87b78895a0c06", method: .get, parameter: ["":""], token: "") { (json) in
-//            let data: JSON = json
-//            let object: MovieDetail = MovieDetail(fromJson: data)
-//            self.detailMovie = object
-//        }
-//    }
-//
-//    func requestCastInfo(movieId: Int) {
-//        APIManager.requestAPI(api: "http://api.themoviedb.org/3/movie/\(movieId)/credits?api_key=d5b97a6fad46348136d87b78895a0c06&page=1", method: .get, parameter: ["":""], token: "") { (json) in
-//            let data: JSON = json["cast"]
-//            for i in 0..<data.count {
-//                let object: Cast = Cast(fromJson: data[i])
-//                self.casts.append(object)
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            self.castCollectionView.reloadData()
-//        }
-//    }
-//
-//    func requestSimilarMovie(movieId: Int) {
-//        APIManager.requestAPI(api: "http://api.themoviedb.org/3/movie/\(movieId)/similar?api_key=d5b97a6fad46348136d87b78895a0c06", method: .get, parameter: ["":""], token: "") { (json) in
-//            let data: JSON = json["results"]
-//            for i in 0..<data.count {
-//                let object: Movie = Movie(fromJson: data[i])
-//                self.similarMovies.append(object)
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            self.similarMovieTableView.reloadData()
-//        }
-//    }
-//
-//    func getDataGenres() {
-//        APIManager.requestAPI(api: "https://api.themoviedb.org/3/genre/movie/list?api_key=d5b97a6fad46348136d87b78895a0c06&language=en-US", method: .get, parameter: ["":""], token: "") { (json) in
-//            let data: JSON = json["genres"]
-//            for i in 0..<data.count {
-//                let object: Genres = Genres(fromJson: data[i])
-//                self.listGenres.append(object)
-//            }
-//        }
-//    }
     
 }

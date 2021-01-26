@@ -9,10 +9,10 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-
+import CoreData
 protocol AppCollectionViewCellDelegate: class {
     func didSelectItem(index: Int)
-    func didSelectFavoriteItem(cell: AppCollectionViewCell, section: Int)
+    func didSelectFavoriteItem(cell: AppCollectionViewCell, index: Int)
     func showDetail(movie: Movie)
     func didError()
 }
@@ -45,7 +45,7 @@ class AppCollectionViewCell: UICollectionViewCell {
         self.homeCollectionView.register(UINib(nibName: "Section", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Section")
     }
     
-    func setupView(allMovies: [[Movie]]?,listMovies: [Movie]?, index: Int) {
+    func setupView(allMovies: [[Movie]]?, listMovies: [Movie]?, index: Int) {
         listAllMovies = allMovies
         self.listMovies = listMovies
         currentIndex = index
@@ -67,6 +67,8 @@ class AppCollectionViewCell: UICollectionViewCell {
         }
         return 0
     }
+    
+    
 }
 
 extension AppCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -102,13 +104,16 @@ extension AppCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataS
         if currentIndex != 0 {
             if let cell = cell as? HomeCollectionViewCell, let movie = listMovies?[indexPath.item] {
                 cell.setupView(movie: movie)
+                cell.delegate = self
             }
         } else {
             let number = indexPath.section
             if let cell = cell as? HomeCollectionViewCell, let movie = listAllMovies?[number][indexPath.item] {
                 cell.setupView(movie: movie)
+                cell.delegate = self
             }
         }
+        
         return cell
     }
     
@@ -168,7 +173,16 @@ extension AppCollectionViewCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension AppCollectionViewCell: SeeAllMovieCategoryDelegate {
+extension AppCollectionViewCell: SeeAllMovieCategoryDelegate, AddToFavoriteCollection {
+    func addFavoriteItem(cell: HomeCollectionViewCell) {
+        let indexPath = homeCollectionView.indexPath(for: cell)
+        let movie = listMovies?[indexPath?.item ?? 0]
+        delegate?.didSelectFavoriteItem(cell: self, index: indexPath?.row ?? 0)
+        print(1)
+        homeCollectionView.reloadData()
+        
+    }
+    
     func seeAllMovieCategory(section: Int) {
         currentIndex = section
         delegate?.didSelectItem(index: section)

@@ -8,7 +8,7 @@
 
 import UIKit
 import Nuke
-
+import CoreData
 protocol AddToFavoriteTable: class {
     func addFavoriteItem(cell: HomeTableViewCell)
 }
@@ -21,8 +21,9 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var movieOverViewLabel: UILabel!
     
     @IBOutlet weak var favoriteButton: UIButton!
-    
+    var movies: [NSManagedObject] = []
     var delegate: AddToFavoriteTable?
+    var movie: Movie?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,9 +34,14 @@ class HomeTableViewCell: UITableViewCell {
         movieImage.setImage(stringURL: movie.posterPath)
         movieTitleLabel.text = movie.title
         movieOverViewLabel.text = movie.overview
+        movie.checkFavorite(button: favoriteButton)
     }
     
     @IBAction func addFavorite(_ sender: Any) {
         self.delegate?.addFavoriteItem(cell: self)
+        self.save(movieId: movie?.id ?? 2, movies: movies)
+        if movie?.favoriteMovie == false {
+            movie?.favoriteMovie = true
+        }
     }
 }

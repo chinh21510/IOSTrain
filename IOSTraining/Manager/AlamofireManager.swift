@@ -13,7 +13,6 @@ class APIManager {
     init() {
         
     }
-    
     static var alamofireManager : Session? = {
          let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 300

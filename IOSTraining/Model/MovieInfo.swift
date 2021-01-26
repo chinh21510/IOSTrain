@@ -23,6 +23,14 @@ class Movie: NSObject, NSCoding{
     var voteAverage : Float!
     var voteCount : Int!
     var favoriteMovie: Bool = false
+    
+    func checkFavorite(button: UIButton) {
+        if favoriteMovie {
+            button.setImage(UIImage(named: "starFull"), for: .normal)
+        } else {
+            button.setImage(UIImage(named: "starEmpty"), for: .normal)
+        }
+    }
     /**
      * Instantiate the instance using the passed json values to set the properties values
      */

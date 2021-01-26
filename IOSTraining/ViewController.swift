@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import Nuke
 import CoreData
+
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
@@ -29,10 +30,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var headerString = ["Movies", "Popular", "Top Rated", "Up Coming", "Now Playing"]
     var testView = UIView()
     var currentPage: Int = 1
-    
+    var movies: [NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getDataCoreData()
         configCollectionView()
         configHeaderCollec()
         getAllData()
@@ -50,6 +52,36 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func getDataCoreData() {
+        guard let appDelegate =
+          UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext =
+          appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+          NSFetchRequest<NSManagedObject>(entityName: "MovieFavorite")
+        
+        //3
+        do {
+          movies = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+          print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func checkMovieFavorite(movie: Movie) {
+        for index in 0..<movies.count {
+            let data:[String: Any] = movies[index].dictionaryWithValues(forKeys: ["movieId"])
+            if data["movieId"] as? Int ?? 0 == movie.id {
+                movie.favoriteMovie = true
+            }
+        }
     }
     
     func configHeaderCollec() {
@@ -97,6 +129,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         alert.addAction(actionReload)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
 }
 
 extension ViewController {
@@ -223,6 +257,7 @@ extension ViewController {
                     }
                     for i in 0..<data.count {
                         if let object: Movie = Movie(fromJson: data[i]) {
+                            self.checkMovieFavorite(movie: object)
                             movies.append(object)
                         }
                     }
@@ -256,6 +291,7 @@ extension ViewController {
             let data: JSON = json["results"]
             for i in 0..<data.count {
                 let object: Movie = Movie(fromJson: data[i])
+                self.checkMovieFavorite(movie: object)
                 self.listPopular.append(object)
             }
         }
@@ -266,6 +302,7 @@ extension ViewController {
             let data: JSON = json["results"]
             for i in 0..<data.count {
                 let object: Movie = Movie(fromJson: data[i])
+                self.checkMovieFavorite(movie: object)
                 self.listTopRated.append(object)
             }
         }
@@ -276,6 +313,7 @@ extension ViewController {
             let data: JSON = json["results"]
             for i in 0..<data.count {
                 let object: Movie = Movie(fromJson: data[i])
+                self.checkMovieFavorite(movie: object)
                 self.listUpComing.append(object)
             }
         }
@@ -286,6 +324,7 @@ extension ViewController {
             let data: JSON = json["results"]
             for i in 0..<data.count {
                 let object: Movie = Movie(fromJson: data[i])
+                self.checkMovieFavorite(movie: object)
                 self.listNowPlaying.append(object)
             }
         }
@@ -309,6 +348,18 @@ extension ViewController {
 }
 
 extension ViewController: AppCollectionViewCellDelegate, AppRowCollectionViewCellDelagate {
+    
+    func didSelectFavoriteItem(cell: AppCollectionViewCell, index: Int) {
+        var indexPath = appCollectionView.indexPath(for: cell)
+        if currentIndex != 0 {
+            indexPath?.section = index
+            appCollectionView.reloadData()
+        } else {
+           indexPath?.section = index
+           appCollectionView.reloadData()
+        }
+    }
+    
     func didSelectItem(index: Int) {
         scrollToPage(index: index, animated: false)
         currentIndex = index
@@ -320,7 +371,15 @@ extension ViewController: AppCollectionViewCellDelegate, AppRowCollectionViewCel
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
-    func didSelectFavoriteItem(cell: AppCollectionViewCell, section: Int) {
-//        <#code#>
+    func didSelectFavoriteItemRow(cell: AppRowCollectionViewCell, index: Int) {
+        var indexPath = appCollectionView.indexPath(for: cell)
+        if currentIndex != 0 {
+            indexPath?.section = index
+            appCollectionView.reloadData()
+        } else {
+           indexPath?.section = index
+           appCollectionView.reloadData()
+        }
     }
+   
 }

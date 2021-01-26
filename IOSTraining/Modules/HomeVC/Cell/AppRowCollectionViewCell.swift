@@ -13,6 +13,8 @@ import SwiftyJSON
 protocol AppRowCollectionViewCellDelagate: class {
     func didSelectItem(index: Int)
     func showDetail(movie: Movie)
+    func didSelectFavoriteItemRow(cell: AppRowCollectionViewCell, index: Int)
+    
 }
 
 class AppRowCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITableViewDataSource {
@@ -23,6 +25,7 @@ class AppRowCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITab
     var currentPage = 1
     var listMovies: [Movie]?
     var listAllMovies: [[Movie]]?
+    
     var currentIndex: Int? {
         didSet {
             homeTableView.reloadData()
@@ -90,7 +93,6 @@ class AppRowCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITab
         currentIndex = section
         delegate?.didSelectItem(index: section)
         self.homeTableView.reloadData()
-//        scrollToTop()
     }
     
     private func scrollToTop() {
@@ -133,14 +135,17 @@ class AppRowCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath)
+        
         if currentIndex != 0 {
             if let cell = cell as? HomeTableViewCell, let movie = listMovies?[indexPath.item] {
                 cell.setupView(movie: movie)
+                cell.delegate = self
             }
         } else {
             let number = indexPath.section
             if let cell = cell as? HomeTableViewCell, let movie = listAllMovies?[number][indexPath.item] {
                 cell.setupView(movie: movie)
+                cell.delegate = self
             }
         }
         return cell
@@ -159,3 +164,10 @@ class AppRowCollectionViewCell: UICollectionViewCell, UITableViewDelegate, UITab
     }
 }
 
+extension AppRowCollectionViewCell: AddToFavoriteTable {
+    func addFavoriteItem(cell: HomeTableViewCell) {
+        let indexPath = homeTableView.indexPath(for: cell)
+        delegate?.didSelectFavoriteItemRow(cell: self, index: indexPath?.row ?? 0)
+        homeTableView.reloadData()
+    }
+}

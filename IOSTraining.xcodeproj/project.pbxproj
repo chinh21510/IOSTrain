@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F116BB925BA716B002C0DAC /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F116BB725BA716B002C0DAC /* CoreData.xcdatamodeld */; };
 		5F1A842625A5A1EC00FD1845 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1A842425A5A1EC00FD1845 /* MovieDetailViewController.swift */; };
 		5F1A842725A5A1EC00FD1845 /* MovieDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F1A842525A5A1EC00FD1845 /* MovieDetailViewController.xib */; };
 		5F2397A825B2A7A7003EA58A /* GenresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2397A725B2A7A7003EA58A /* GenresViewController.swift */; };
 		5F2397AC25B2A7CF003EA58A /* GenresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2397AA25B2A7CF003EA58A /* GenresTableViewCell.swift */; };
 		5F2397AD25B2A7CF003EA58A /* GenresTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F2397AB25B2A7CF003EA58A /* GenresTableViewCell.xib */; };
+		5F6866AB25BEA29B0079668A /* ExtensionSaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6866AA25BEA29B0079668A /* ExtensionSaveData.swift */; };
 		5F6F2F8025A3C64700341A2B /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F2F7F25A3C64700341A2B /* MovieInfo.swift */; };
 		5F6F2F8425A3C7B300341A2B /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F2F8325A3C7B300341A2B /* AlamofireManager.swift */; };
 		5F6F2F8725A4829400341A2B /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F2F8625A4829400341A2B /* Extension.swift */; };
@@ -57,11 +59,13 @@
 /* Begin PBXFileReference section */
 		11D1EC4F25F5D255A20F0628 /* Pods_IOSTraining.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSTraining.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D759D7A402C3649888C14D7 /* Pods-IOSTraining.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSTraining.release.xcconfig"; path = "Target Support Files/Pods-IOSTraining/Pods-IOSTraining.release.xcconfig"; sourceTree = "<group>"; };
+		5F116BB825BA716B002C0DAC /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
 		5F1A842425A5A1EC00FD1845 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		5F1A842525A5A1EC00FD1845 /* MovieDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailViewController.xib; sourceTree = "<group>"; };
 		5F2397A725B2A7A7003EA58A /* GenresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresViewController.swift; sourceTree = "<group>"; };
 		5F2397AA25B2A7CF003EA58A /* GenresTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresTableViewCell.swift; sourceTree = "<group>"; };
 		5F2397AB25B2A7CF003EA58A /* GenresTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenresTableViewCell.xib; sourceTree = "<group>"; };
+		5F6866AA25BEA29B0079668A /* ExtensionSaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSaveData.swift; sourceTree = "<group>"; };
 		5F6F2F7F25A3C64700341A2B /* MovieInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
 		5F6F2F8325A3C7B300341A2B /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		5F6F2F8625A4829400341A2B /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			children = (
 				5F6F2F8625A4829400341A2B /* Extension.swift */,
 				5F6F2F8A25A4A97600341A2B /* UIImage+Extension.swift */,
+				5F6866AA25BEA29B0079668A /* ExtensionSaveData.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -243,6 +248,7 @@
 				5F7FF2AD25A325F900479943 /* LaunchScreen.storyboard */,
 				5F6F2F8525A4827800341A2B /* Extension */,
 				5F7FF2B025A325F900479943 /* Info.plist */,
+				5F116BB725BA716B002C0DAC /* CoreData.xcdatamodeld */,
 			);
 			path = IOSTraining;
 			sourceTree = "<group>";
@@ -444,12 +450,14 @@
 				5FF4637F25B1BC4B00301302 /* GenreInfo.swift in Sources */,
 				5F1A842625A5A1EC00FD1845 /* MovieDetailViewController.swift in Sources */,
 				5FCD586C25AED7AF00D33613 /* Section.swift in Sources */,
+				5F116BB925BA716B002C0DAC /* CoreData.xcdatamodeld in Sources */,
 				5FB1886525B33D8C00C2A3E3 /* CastCollectionViewCell.swift in Sources */,
 				5FB1885925B3109B00C2A3E3 /* MovieDetailProductionCountry.swift in Sources */,
 				5FFDB73625B483D6006534E5 /* HeaderCollectionViewCell.swift in Sources */,
 				5FCC37BD25B5E28200EEFFF4 /* ListMovieGenresViewController.swift in Sources */,
 				5FB1885725B3107900C2A3E3 /* MovieDetailSpokenLanguage.swift in Sources */,
 				5F7FF2A325A325F800479943 /* AppDelegate.swift in Sources */,
+				5F6866AB25BEA29B0079668A /* ExtensionSaveData.swift in Sources */,
 				5FCD586425AED26000D33613 /* HomeCollectionViewCell.swift in Sources */,
 				5F6F2F8425A3C7B300341A2B /* AlamofireManager.swift in Sources */,
 				5FF4638325B1C83C00301302 /* ResultMovieTableViewCell.swift in Sources */,
@@ -656,6 +664,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5F116BB725BA716B002C0DAC /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5F116BB825BA716B002C0DAC /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 5F116BB825BA716B002C0DAC /* CoreData.xcdatamodel */;
+			path = CoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5F7FF29725A325F800479943 /* Project object */;
 }
